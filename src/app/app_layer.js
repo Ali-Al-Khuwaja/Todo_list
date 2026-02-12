@@ -1,7 +1,9 @@
 import { Project } from "../domain/project";
-export class App_layer {
-  addTodo() {
-    const project = new Project();
-    project.addTodo()
-  }
+const inbox = new Project("Inbox");
+export function app_addTodo(title, description, date, priority) {
+  inbox.addTodo(title, description, date, priority);
+}
+
+export function app_getTodos() {
+  return inbox.listAllTodos();
 }
