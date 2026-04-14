@@ -8,7 +8,93 @@
 </head>
 
 <body>
-    <button class="project">Create a project</button>
+    <main class="container ">
+        <header>
+            <nav>
+                <ul>
+                    <li style="display: flex;">
+                        <img src="assets/icon (2).png" alt="logo" style="width: 60px; height: 60px;">
+                    <li><strong style="font-size: larger;">ToDo App</strong></li>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <aside style="width: 30%; padding-right: 32px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <h3>Projects:</h3>
+                        <button class="project-btn">Create a project</button>
+                    </div>
+                    <hr>
+                    <div class="projects-view"
+                        style="display: flex; justify-content: flex-start; gap: 32px; flex-direction: column;">
+                    </div>
+                </div>
+            </aside>
+            <div style="border-left: 2px solid #202632; width: 70%; height: 80vh; padding-left: 32px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <h3>Todos:</h3>
+                    <button class="todo-btn">Add a Todo</button>
+                </div>
+                <hr>
+                <div class="todos-view"></div>
+            </div>
+        </div>
+        <!-- Forms -->
+        <dialog class="todoDialog">
+            <article>
+                <header>
+                    <h3>Add your TO-DO</h3>
+                </header>
+                <form class="todoForm">
+                    <label>
+                        Title *
+                        <input type="text" name="title" placeholder="Your title here" required maxlength="100">
+                    </label>
+                    <label>
+                        Description
+                        <textarea name="description" placeholder="Write your description in here"></textarea>
+                    </label>
+                    <label>
+                        DueDate *
+                        <input type="date" name="dueDate" placeholder="Enter the date" required>
+                    </label>
+                    <label>
+                        Priority *
+                        <select name="priority" aria-label="Select priority" required>
+                            <option selected disabled>
+                                Select your priority...
+                            </option>
+                            <option>Low</option>
+                            <option>medium</option>
+                            <option>High</option>
+                        </select>
+                    </label>
+                    <button class="secondary cancel">
+                        Cancel
+                    </button>
+                    <button class="submit">Confirm</button>
+                </form>
+            </article>
+        </dialog>
+        <dialog class="projectDialog">
+            <article>
+                <h3>Enter your project's name</h3>
+                <form class="projectForm">
+                    <label>
+                        Enter project's
+                        <input type="text" name="title" placeholder="Your title here" required maxlength="100">
+                    </label>
+                    <button class="secondary cancel">
+                        Cancel
+                    </button>
+                    <button class="submit">Confirm</button>
+                </form>
+            </article>
+        </dialog>
+    </main>
 </body>
 
 </html>

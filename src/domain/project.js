@@ -13,6 +13,12 @@ export class Project {
     this.#name = name.trim();
   }
 
+  get name() {
+    return this.#name;
+  }
+  get id() {
+    return this.#ID;
+  }
   addTodo(title, description, date, priority) {
     const todo = new Todo(title, description, date, priority);
     this.stored_todos.push(todo);
@@ -26,5 +32,9 @@ export class Project {
 
   listAllTodos() {
     console.log(this.stored_todos);
+  }
+  getSelectedProjectTodos() {
+    // give out the stored todos on function call
+    return this.stored_todos;
   }
 }
