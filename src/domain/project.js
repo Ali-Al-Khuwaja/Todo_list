@@ -29,9 +29,14 @@ export class Project {
       this.stored_todos.splice(remove, 1);
     }
   }
-
   listAllTodos() {
     console.log(this.stored_todos);
+  }
+  editTodo(title, description, date, priority, todo) {
+    todo.title = title;
+    todo.description = description;
+    todo.dueDate = date;
+    todo.priority = priority;
   }
   getSelectedProjectTodos() {
     // give out the stored todos on function call

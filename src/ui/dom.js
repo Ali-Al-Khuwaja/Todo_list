@@ -7,7 +7,11 @@ import {
   selectProjectRequest,
   getSelectedProjectTodosRequest,
   selectDemoProjectRequest,
+  deleteTodoRequest,
+  editTodoRequest,
 } from "../app/app_layer";
+
+let editingTodoId = null;
 
 function renderProjectsList() {
   const projectView = document.querySelector(".projects-view");
@@ -34,9 +38,41 @@ function renderTodos() {
   const todos = getSelectedProjectTodosRequest();
 
   todos.forEach((todo) => {
-    const btn = document.createElement("div");
-    btn.textContent = `${todo.title} | ${todo.dueDate} | ${todo.priority}`;
-    todoView.appendChild(btn);
+    const container = document.createElement("div");
+    container.style.cssText =
+      "display: flex; justify-content: space-between; margin: 16px;";
+
+    const todoInfo = document.createElement("div");
+    todoInfo.textContent = `${todo.title} | ${todo.dueDate} | ${todo.priority}`;
+
+    const btnContainer = document.createElement("div");
+    btnContainer.style.cssText =
+      "display: flex; justify-content: center; gap: 16px;";
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.onclick = () => {
+      deleteTodoRequest(todo.ID);
+      renderTodos();
+    };
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.onclick = () => {
+      editingTodoId = todo.ID;
+
+      // pre-fill form
+      todoForm.title.value = todo.title;
+      todoForm.description.value = todo.description;
+      todoForm.dueDate.value = todo.dueDate;
+      todoForm.priority.value = todo.priority;
+
+      todoDialog.showModal();
+    };
+
+    btnContainer.append(deleteBtn, editBtn);
+    container.append(todoInfo, btnContainer);
+    todoView.append(container);
   });
 }
 export function initDOM() {
@@ -87,7 +123,17 @@ todoForm.addEventListener("submit", (event) => {
   const formData = new FormData(todoForm);
   const data = Object.fromEntries(formData);
 
-  createTodoRequest(data.title, data.description, data.dueDate, data.priority);
+  if (editingTodoId) {
+    editTodoRequest(editingTodoId, data);
+    editingTodoId = null;
+  } else {
+    createTodoRequest(
+      data.title,
+      data.description,
+      data.dueDate,
+      data.priority,
+    );
+  }
   todoForm.reset();
   renderTodos();
   todoDialog.close();
@@ -96,5 +142,6 @@ todoForm.addEventListener("submit", (event) => {
 // Default demo project
 createProjectRequest("#Demo10!@%H");
 selectDemoProjectRequest();
-createTodoRequest("#Demo10!@%H", "Task 1", "desc", "low", "2026-04-10");
-createTodoRequest("#Demo10!@%H", "Task 2", "desc", "high", "2026-04-11");
+createTodoRequest("Task 1", "desc", "2026-04-10", "low");
+createTodoRequest("Task 2", "desc", "2026-04-11", "high");
+//#Demo10!@%H" delete , it should not be passed

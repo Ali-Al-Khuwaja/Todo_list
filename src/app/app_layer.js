@@ -23,6 +23,28 @@ export function selectProjectRequest(id) {
   ));
 }
 
+export function deleteTodoRequest(id) {
+  selectedProject.removeTodo(id);
+}
+
+export function editTodoRequest(id, data) {
+  if (!selectedProject) return; // if not truthy do nothing
+
+  const todo = selectedProject //select the todo
+    .getSelectedProjectTodos()
+    .find((t) => t.ID === id);
+
+  if (!todo) return; // same
+
+  selectedProject.editTodo(
+    data.title,
+    data.description,
+    data.dueDate,
+    data.priority,
+    todo,
+  );
+}
+
 // #Demo10!@%H what are the chances that the user will name his project this name?
 export function selectDemoProjectRequest() {
   selectedProject = storedProjects.find(
