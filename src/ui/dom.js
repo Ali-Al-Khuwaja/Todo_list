@@ -9,6 +9,7 @@ import {
   selectDemoProjectRequest,
   deleteTodoRequest,
   editTodoRequest,
+  deleteProjectRequest,
 } from "../app/app_layer";
 
 let editingTodoId = null;
@@ -20,14 +21,28 @@ function renderProjectsList() {
   const projects = getStoredProjectsRequest();
 
   projects.forEach((project) => {
-    const btn = document.createElement("button");
-    btn.textContent = project.name;
-
-    btn.addEventListener("click", () => {
+    const container = document.createElement("div");
+    const title = document.createElement("p");
+    title.textContent = project.name;
+    title.style.cssText = "margin: 0px;";
+    container.style.cssText =
+      "display:flex; border: 2px solid gray; border-radius: 5px; justify-content: space-between; align-items: center; padding: 16px;";
+    container.addEventListener("click", () => {
       selectProjectRequest(project.id); // select a project
       renderTodos();
     });
-    projectView.appendChild(btn);
+
+    const button = document.createElement("button");
+    button.textContent = "Delete";
+    button.onclick = (e) => {
+      e.stopPropagation(); // prevent bubbling
+      selectProjectRequest(project.id);
+      deleteProjectRequest();
+      renderProjectsList();
+      renderTodos();
+    };
+    container.append(title, button);
+    projectView.appendChild(container);
   });
 }
 

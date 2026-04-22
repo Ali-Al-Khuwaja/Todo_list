@@ -11,7 +11,9 @@ export function createProjectRequest(projectName) {
 }
 
 export function createTodoRequest(title, description, date, priority) {
-  selectedProject.addTodo(title, description, date, priority);
+  if (!selectedProject) {
+    return alert("Create a project first");
+  } else selectedProject.addTodo(title, description, date, priority);
 }
 
 export function getStoredProjectsRequest() {
@@ -56,4 +58,18 @@ export function getSelectedProjectTodosRequest() {
   // ask for project's todos
   if (!selectedProject) return [];
   return selectedProject.getSelectedProjectTodos();
+}
+
+export function deleteProjectRequest() {
+  if (!selectedProject) return;
+
+  const index = storedProjects.findIndex(
+    (project) => project.id === selectedProject.id,
+  );
+
+  if (index !== -1) {
+    storedProjects.splice(index, 1);
+  }
+
+  selectedProject = null;
 }
