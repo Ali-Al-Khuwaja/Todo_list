@@ -26,7 +26,7 @@ function renderProjectsList() {
     title.textContent = project.name;
     title.style.cssText = "margin: 0px;";
     container.style.cssText =
-      "display:flex; border: 2px solid gray; border-radius: 5px; justify-content: space-between; align-items: center; padding: 16px;";
+      "display:flex; border: 2px solid gray; border-radius: 5px; justify-content: space-between; align-items: center; padding: 16px; cursor:pointer;";
     container.addEventListener("click", () => {
       selectProjectRequest(project.id); // select a project
       renderTodos();
@@ -153,10 +153,3 @@ todoForm.addEventListener("submit", (event) => {
   renderTodos();
   todoDialog.close();
 });
-
-// Default demo project
-createProjectRequest("#Demo10!@%H");
-selectDemoProjectRequest();
-createTodoRequest("Task 1", "desc", "2026-04-10", "low");
-createTodoRequest("Task 2", "desc", "2026-04-11", "high");
-//#Demo10!@%H" delete , it should not be passed
