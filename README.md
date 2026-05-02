@@ -1,10 +1,32 @@
-# Webpack-Template
+## About
 
-What did I do to make this template ?
+A structured To-Do application built with a 3-layer architecture (Domain, Application, DOM) as part of The Odin Project.
 
-1. npm init -y
-2. Before we install anything, open package.json. If you see "type": "commonjs" or "type": "module" inside, remove it
-3. Created a src folder
-4. Created a webpack config
-5. then `npx webpack` , it will make a dist folder
-6. add new npm script in `package.json`
+## ⚙️ Features
+
+- Create and manage projects
+- Add, edit, and delete todos
+- Project-based organization
+- Persistent state using localStorage
+
+## 🏗️ Architecture
+
+This project intentionally separates concerns:
+- Domain layer → business logic (Project, Todo)
+- Application layer → state management and orchestration
+- DOM layer → UI rendering and event handling
+
+## 💾 Persistence
+
+Data is serialized into plain objects before saving to localStorage, and reconstructed into domain instances on load.
+
+## 🚧 Future Improvements
+- Mark todos as complete
+- Persist selected project
+- Improve UI/UX and visual feedback
+
+## 📚 What I learned
+
+- Managing application state without leaking domain objects
+- Separating UI from business logic
+- Handling serialization/deserialization with localStorage
