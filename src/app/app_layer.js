@@ -8,6 +8,8 @@ let selectedProject = null;
 export function createProjectRequest(projectName) {
   let project = new Project(projectName);
   storedProjects.push(project);
+
+  saveProjects();
 }
 
 export function createTodoRequest(title, description, date, priority) {
@@ -73,3 +75,57 @@ export function deleteProjectRequest() {
 
   selectedProject = null;
 }
+
+function saveProjects() {
+  const data = storedProjects.map((project) => ({
+    name: project.name,
+    todos: project.getSelectedProjectTodos().map((todo) => ({
+      title: todo.title,
+      description: todo.description,
+      dueDate: todo.dueDate,
+      priority: todo.priority,
+    })),
+  }));
+
+  localStorage.setItem("projects", JSON.stringify(data));
+}
+
+export function loadProjects() {
+  const raw = localStorage.getItem("projects");
+  if (!raw) return;
+
+  // “Because JSON.stringify on class instances removes private fields, the
+  // saved data loses essential properties like name and todo content.
+  // When loading, this results in invalid data (missing name), causing
+  // constructor errors and preventing reconstruction of proper Project and
+  // Todo instances.”
+  const data = JSON.parse(raw);
+
+  storedProjects = data
+    .map((p) => {
+      if (!p.name) return null; // guard
+
+      const project = new Project(p.name);
+
+      p.todos.forEach((t) => {
+        project.addTodo(t.title, t.description, t.dueDate, t.priority);
+      });
+
+      return project;
+    })
+    .filter(Boolean);
+}
+export function ensureDemoProject() {
+  if (storedProjects.length === 0) {
+    const project = new Project("#Demo10!@%H");
+    storedProjects.push(project);
+    selectedProject = project;
+
+    project.addTodo("Task 1", "desc", "2026-04-10", "low");
+    project.addTodo("Task 2", "desc", "2026-04-11", "high");
+
+    saveProjects();
+  }
+}
+// That’s the key idea:
+// You are stripping your app down to pure data before saving.
